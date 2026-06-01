@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniê Casa de Perfumes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+:root{--gold:#C9A84C;--gold-dark:#9B7B2F;--gold-light:#E8D08A;--teal:#00B4C8;--teal-dark:#0090A8;--teal-light:#33C9D8;--teal-pale:#E0F7FA;--cream:#FAF8F4;--dark:#1A1A1A;--mid:#555;--light:#888;--white:#fff;--border:#e8e2d8}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
+h1,h2,h3{font-family:'Cormorant Garamond',serif}
+#header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,244,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;letter-spacing:4px;color:var(--dark);cursor:pointer}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.nav-link{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);cursor:pointer;border:none;background:none;font-family:'Jost',sans-serif;transition:color .2s}
+.nav-link:hover{color:var(--gold)}
+.nav-btn{padding:8px 16px;border:1px solid var(--gold);color:var(--gold);font-size:11px;letter-spacing:2px;text-transform:uppercase;background:none;cursor:pointer;transition:all .2s;font-family:'Jost',sans-serif}
+.nav-btn:hover,.nav-btn.filled{background:var(--gold);color:#fff}
+.nav-btn.filled:hover{background:var(--gold-dark)}
+.nav-user{font-size:12px;color:var(--teal);letter-spacing:1px}
+#hero{padding-top:72px;min-height:100vh;background:linear-gradient(135deg,#003d4d,#001f2e,#003d4d);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L35 25 L55 25 L40 37 L46 57 L30 45 L14 57 L20 37 L5 25 L25 25Z' fill='none' stroke='%23C9A84C' stroke-width='0.3' opacity='0.15'/%3E%3C/svg%3E") repeat;opacity:.4}
+.hero-content{text-align:center;position:relative;z-index:1;padding:32px}
+.hero-badge{display:inline-block;border:1px solid rgba(201,168,76,.5);padding:6px 20px;font-size:11px;letter-spacing:3px;color:var(--gold-light);text-transform:uppercase;margin-bottom:32px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,8vw,96px);font-weight:300;color:#fff;line-height:1;letter-spacing:-1px;margin-bottom:8px}
+.hero-title em{color:var(--gold);font-style:italic}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.5vw,22px);font-weight:300;color:rgba(255,255,255,.6);letter-spacing:2px;margin-bottom:48px}
+.hero-cta{padding:14px 48px;background:var(--gold);color:#fff;font-size:12px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border:none;font-family:'Jost',sans-serif;transition:all .3s}
+.hero-cta:hover{background:var(--gold-dark);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.4);font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.scroll-line{width:1px;height:40px;background:rgba(201,168,76,.4);animation:sp 2s infinite}
+@keyframes sp{0%,100%{opacity:.4}50%{opacity:1}}
+.section{padding:80px 32px}.section-inner{max-width:1200px;margin:0 auto}
+.sec-hdr{text-align:center;margin-bottom:56px}
+.sec-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;color:var(--dark);line-height:1.1}
+.sec-div{width:60px;height:1px;background:var(--gold);margin:16px auto 0}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.product-card{background:#fff;border:1px solid var(--border);overflow:hidden;transition:all .3s}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.1)}
+.pimg{height:300px;overflow:hidden;background:linear-gradient(135deg,#f5f0e8,#ede7d9);position:relative}
+.pimg img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.product-card:hover .pimg img{transform:scale(1.05)}
+.pbadge{position:absolute;top:12px;right:12px;background:var(--gold);color:#fff;font-size:9px;letter-spacing:2px;padding:4px 10px;text-transform:uppercase}
+.pinfo{padding:20px}
+.ptype{font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.pname{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--dark);margin-bottom:4px}
+.pbrand{font-size:12px;color:var(--light);margin-bottom:12px}
+.pprice{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--teal-dark);font-weight:500;margin-bottom:16px}
+.pprice small{font-size:14px;font-weight:300;color:var(--light)}
+.btn-wapp{width:100%;padding:10px;background:var(--teal);color:#fff;border:none;cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-wapp:hover{background:var(--teal-dark)}
+.btn-wapp svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+.skel-card{background:#fff;border:1px solid var(--border);overflow:hidden}
+.skel-img{height:300px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:skel 1.4s infinite}
+.skel-body{padding:20px;display:flex;flex-direction:column;gap:10px}
+.skel-line{height:14px;border-radius:2px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:skel 1.4s infinite}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about-desc{margin-top:24px;color:var(--mid);font-size:15px;line-height:1.8}
+.features{margin-top:32px;display:flex;flex-direction:column;gap:16px}
+.fi{display:flex;gap:16px;align-items:flex-start}
+.ficon{width:40px;height:40px;min-width:40px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.ficon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5}
+.ftxt h4{font-size:13px;font-weight:500;letter-spacing:1px;margin-bottom:4px}
+.ftxt p{font-size:12px;color:var(--light);line-height:1.6}
+.about-visual{background:linear-gradient(135deg,var(--teal-dark),var(--teal));padding:48px;display:flex;flex-direction:column;gap:24px;align-items:center;text-align:center}
+.about-visual h3{font-family:'Cormorant Garamond',serif;font-size:32px;color:#fff;font-weight:300}
+.about-visual p{color:rgba(255,255,255,.8);font-size:14px;line-height:1.7}
+.cbtn{padding:12px 32px;border:1px solid rgba(255,255,255,.5);color:#fff;background:none;cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;transition:all .2s}
+.cbtn:hover{background:rgba(255,255,255,.15)}
+footer{background:var(--dark);color:rgba(255,255,255,.6);padding:48px 32px;text-align:center}
+.flogo{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#fff;letter-spacing:4px;margin-bottom:8px}
+.flogo span{color:var(--gold)}
+.ftag{font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:24px}
+.fdiv{width:60px;height:1px;background:var(--gold-dark);margin:24px auto}
+.footer-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.footer-link{font-size:11px;color:rgba(255,255,255,.4);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Jost',sans-serif}
+.footer-link:hover{color:var(--gold)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:#fff;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:mi .3s ease}
+.modal.wide{max-width:700px}
+@keyframes mi{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.mhdr{padding:32px 32px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.mhdr h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;line-height:1.2}
+.mclose{background:none;border:none;cursor:pointer;color:var(--light);font-size:24px;line-height:1;padding:0;flex-shrink:0}
+.mbody{padding:24px 32px 32px}
+.mtabs{display:flex;margin-bottom:24px;border-bottom:1px solid var(--border)}
+.tbtn{flex:1;padding:10px;background:none;border:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'Jost',sans-serif;transition:all .2s}
+.tbtn.active{color:var(--teal);border-bottom-color:var(--teal)}
+.fg{margin-bottom:20px}
+.fg label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.fg input,.fg textarea{width:100%;padding:12px 16px;border:1px solid var(--border);background:var(--cream);font-size:14px;font-family:'Jost',sans-serif;color:var(--dark);outline:none;transition:border-color .2s}
+.fg input:focus,.fg textarea:focus{border-color:var(--teal)}
+.fg textarea{resize:vertical;min-height:80px}
+.ferr{font-size:12px;color:#e74c3c;margin-top:4px;min-height:16px}
+.sbtn{width:100%;padding:14px;background:var(--teal);color:#fff;border:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:background .2s}
+.sbtn:hover{background:var(--teal-dark)}
+.sbtn:disabled{background:#ccc;cursor:not-allowed}
+.smsg{text-align:center;padding:16px 0}
+.smsg h3{font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:8px;color:var(--teal)}
+.smsg p{font-size:14px;color:var(--mid);line-height:1.6}
+/* LGPD */
+.consent-box{background:var(--teal-pale);border:1px solid var(--teal-light);padding:16px;margin-bottom:20px;font-size:13px;line-height:1.6;color:var(--dark)}
+.consent-box strong{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--teal-dark);margin-bottom:8px}
+.consent-check{display:flex;gap:10px;align-items:flex-start;margin-top:12px;cursor:pointer}
+.consent-check input[type=checkbox]{width:16px;height:16px;min-width:16px;margin-top:2px;accent-color:var(--teal);cursor:pointer}
+.consent-check span{font-size:13px;line-height:1.5;color:var(--dark)}
+.consent-check a{color:var(--teal);text-decoration:underline;cursor:pointer}
+.data-info{background:#f8f6f0;border-left:3px solid var(--gold);padding:12px 16px;font-size:12px;color:var(--mid);line-height:1.6;margin-bottom:20px}
+.data-info strong{color:var(--dark)}
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:500;background:#003d4d;color:rgba(255,255,255,.9);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;border-top:2px solid var(--gold);animation:slide-up .4s ease}
+@keyframes slide-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.cookie-text{font-size:13px;line-height:1.6;flex:1;min-width:240px}
+.cookie-text a{color:var(--gold-light);text-decoration:underline;cursor:pointer}
+.cookie-actions{display:flex;gap:12px;flex-wrap:wrap}
+.cookie-accept{padding:10px 24px;background:var(--gold);color:#fff;border:none;cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;transition:background .2s;white-space:nowrap}
+.cookie-accept:hover{background:var(--gold-dark)}
+.cookie-reject{padding:10px 24px;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);background:none;cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;transition:all .2s;white-space:nowrap}
+.cookie-reject:hover{border-color:rgba(255,255,255,.6);color:#fff}
+.cookie-more{font-size:11px;color:rgba(255,255,255,.4);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Jost',sans-serif;white-space:nowrap}
+.policy-section{margin-bottom:24px}
+.policy-section h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--dark);margin-bottom:8px}
+.policy-section p{font-size:13px;color:var(--mid);line-height:1.8}
+.policy-meta{font-size:11px;color:var(--light);letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.data-card{background:var(--teal-pale);border:1px solid var(--teal-light);padding:20px;margin-bottom:16px}
+.data-card h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--teal-dark);margin-bottom:12px}
+.data-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:13px;gap:16px}
+.data-row:last-child{border-bottom:none}
+.data-row label{color:var(--mid);font-size:12px;white-space:nowrap}
+.data-row span{color:var(--dark);font-weight:500;text-align:right;word-break:break-all}
+.danger-zone{border:1px solid #fcc;background:#fff8f8;padding:20px;margin-top:24px}
+.danger-zone h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#c0392b;margin-bottom:8px}
+.danger-zone p{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:16px}
+.btn-danger{padding:10px 20px;background:#c0392b;color:#fff;border:none;cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;transition:background .2s}
+.btn-danger:hover{background:#a93226}
+#adm{max-width:1200px;margin:0 auto;padding:32px;padding-top:calc(72px + 32px);min-height:100vh}
+.adm-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.adm-hdr h1{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300}
+.adm-hdr h1 span{color:var(--gold)}
+.adm-sub{font-size:12px;color:var(--light);letter-spacing:2px;text-transform:uppercase;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
+.stat{background:#fff;border:1px solid var(--border);padding:24px;text-align:center}
+.stn{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--teal)}
+.stl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--light);margin-top:4px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.toolbar h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400}
+.btn-add{padding:10px 24px;background:var(--gold);color:#fff;border:none;cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;transition:background .2s;display:flex;align-items:center;gap:8px}
+.btn-add:hover{background:var(--gold-dark)}
+.atbl{width:100%;border-collapse:collapse}
+.atbl th{text-align:left;padding:12px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--light);border-bottom:1px solid var(--border);background:var(--cream)}
+.atbl td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:middle}
+.atbl tr:hover td{background:var(--teal-pale)}
+.tthumb{width:48px;height:48px;object-fit:cover;border:1px solid var(--border)}
+.tname{font-family:'Cormorant Garamond',serif;font-size:16px}
+.tprice{color:var(--teal-dark);font-weight:500}
+.be,.bd{padding:6px 12px;border:none;cursor:pointer;font-size:11px;font-family:'Jost',sans-serif;transition:all .2s}
+.be{background:var(--teal-pale);color:var(--teal-dark);margin-right:4px}
+.be:hover{background:var(--teal);color:#fff}
+.bd{background:#fdecea;color:#c0392b}
+.bd:hover{background:#c0392b;color:#fff}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ffull{grid-column:1/-1}
+.factions{display:flex;gap:12px;margin-top:8px}
+.bcn{flex:1;padding:12px;border:1px solid var(--border);background:none;color:var(--mid);cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;transition:all .2s}
+.bcn:hover{border-color:var(--dark);color:var(--dark)}
+.bsv{flex:2;padding:12px;background:var(--gold);color:#fff;border:none;cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;transition:background .2s}
+.bsv:hover{background:var(--gold-dark)}
+.bsv:disabled{background:#ccc;cursor:not-allowed}
+.imgprev{width:100%;height:140px;overflow:hidden;margin-bottom:16px;background:#f5f0e8}
+.imgprev img{width:100%;height:100%;object-fit:cover}
+.notif{position:fixed;bottom:24px;right:24px;z-index:600;background:var(--dark);color:#fff;padding:12px 20px;font-size:13px;animation:ni .3s ease;max-width:300px;line-height:1.4}
+.notif.error{background:#c0392b}
+.notif.success{background:var(--teal-dark)}
+@keyframes ni{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.lscreen{position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px}
+.lbar{width:120px;height:2px;background:var(--border);overflow:hidden}
+.lbar-fill{height:100%;background:var(--gold);animation:lf 1.2s ease forwards}
+@keyframes lf{from{width:0}to{width:100%}}
+@media(max-width:768px){.about-grid{grid-template-columns:1fr}.header-inner{padding:0 16px}.nav-links{gap:10px}.products-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}.frow{grid-template-columns:1fr}#cookie-banner{flex-direction:column;align-items:flex-start;gap:16px}.cookie-actions{width:100%}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="lscreen">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;letter-spacing:4px;color:#1A1A1A">Dani&ecirc; <span style="color:#C9A84C">Casa de Perfumes</span></div>
+    <div class="lbar"><div class="lbar-fill"></div></div>
+    <p style="font-size:11px;letter-spacing:2px;color:#888;text-transform:uppercase">Carregando...</p>
+  </div>
+</div>
+<div id="cookie-wrap"></div>
+<div id="notif-wrap"></div>
+<script>
+var API = window.location.origin + '/api';
+var WA  = 'https://wa.me/5544988685743';
+var S = {
+  page:'home', user:null, token:null,
+  products:[], loadingProducts:true,
+  authModal:null, authTab:'login',
+  adminModal:false, editProduct:null,
+  policyModal:null, policyData:null,
+  myDataModal:false, myData:null, myDataLoading:false,
+  lf:{email:'',password:'',error:'',loading:false},
+  rf:{email:'',password:'',confirm:'',consent:false,error:'',loading:false,success:false},
+  pf:{name:'',brand:'',type:'',price:'',desc:'',img:'',error:'',loading:false}
+};
+
+async function api(method,path,body){
+  var opts={method:method,headers:{'Content-Type':'application/json'}};
+  if(S.token) opts.headers['Authorization']='Bearer '+S.token;
+  if(body) opts.body=JSON.stringify(body);
+  var res=await fetch(API+path,opts);
+  var data=await res.json();
+  if(!res.ok) throw new Error(data.error||'Erro.');
+  return data;
+}
+
+function saveSession(t,u){S.token=t;S.user=u;try{localStorage.setItem('danie_token',t);}catch(e){}}
+function clearSession(){S.token=null;S.user=null;try{localStorage.removeItem('danie_token');}catch(e){}}
+async function restoreSession(){
+  try{var s=localStorage.getItem('danie_token');if(!s)return;S.token=s;var d=await api('GET','/auth/me');S.user=d.user;}
+  catch(e){clearSession();}
+}
+
+function getCookieConsent(){try{return localStorage.getItem('danie_cookie');}catch(e){return null;}}
+function renderCookieBanner(){
+  if(getCookieConsent()){document.getElementById('cookie-wrap').innerHTML='';return;}
+  document.getElementById('cookie-wrap').innerHTML='<div id="cookie-banner">'
+    +'<div class="cookie-text">&#127850; Usamos apenas cookies essenciais para manter sua sess\u00e3o de login. N\u00e3o usamos rastreamento ou analytics. '
+    +'<a onclick="showPolicy(\'cookies\')">Pol\u00edtica de Cookies</a> &middot; '
+    +'<a onclick="showPolicy(\'privacy\')">Pol\u00edtica de Privacidade</a></div>'
+    +'<div class="cookie-actions">'
+    +'<button class="cookie-accept" onclick="acceptCookies()">Aceitar cookies essenciais</button>'
+    +'<button class="cookie-reject" onclick="rejectCookies()">Recusar e continuar</button>'
+    +'</div>'
+    +'<button class="cookie-more" onclick="showPolicy(\'cookies\')">Saiba mais</button>'
+    +'</div>';
+}
+function acceptCookies(){
+  try{localStorage.setItem('danie_cookie','essential');}catch(e){}
+  api('POST','/legal/consent/cookies',{categories:{essential:true}}).catch(function(){});
+  document.getElementById('cookie-wrap').innerHTML='';
+  notify('Prefer\u00eancias de cookies salvas.','success');
+}
+function rejectCookies(){
+  try{localStorage.setItem('danie_cookie','rejected');}catch(e){}
+  document.getElementById('cookie-wrap').innerHTML='';
+}
+
+async function doLogin(){
+  S.lf.loading=true;S.lf.error='';render();
+  try{
+    var d=await api('POST','/auth/login',{email:S.lf.email,password:S.lf.password});
+    saveSession(d.token,d.user);
+    S.authModal=null;S.lf={email:'',password:'',error:'',loading:false};
+    S.page=d.user.role==='admin'?'admin':'home';
+    notify('Bem-vinda, '+d.user.name+'! \u2728','success');render();
+  }catch(e){S.lf.loading=false;S.lf.error=e.message;render();}
+}
+async function doRegister(){
+  if(!S.rf.consent){S.rf.error='Aceite a Pol\u00edtica de Privacidade para criar uma conta.';render();return;}
+  S.rf.loading=true;S.rf.error='';render();
+  try{
+    await api('POST','/auth/register',{email:S.rf.email,password:S.rf.password,lgpdConsent:true});
+    S.rf.loading=false;S.rf.success=true;render();
+  }catch(e){S.rf.loading=false;S.rf.error=e.message;render();}
+}
+function doLogout(){clearSession();S.page='home';notify('At\u00e9 logo! \uD83D\uDC4B','success');render();}
+
+async function loadProducts(){
+  S.loadingProducts=true;render();
+  try{S.products=await api('GET','/products');}
+  catch(e){notify('Erro ao carregar produtos.','error');}
+  S.loadingProducts=false;render();
+}
+function openForm(p){
+  S.editProduct=p||null;
+  S.pf=p?{name:p.name,brand:p.brand||'',type:p.type||'',price:String(p.price),desc:p.desc||'',img:p.img||'',error:'',loading:false}
+        :{name:'',brand:'',type:'',price:'',desc:'',img:'',error:'',loading:false};
+  S.adminModal=true;render();
+}
+async function saveProduct(){
+  S.pf.loading=true;S.pf.error='';render();
+  try{
+    var body={name:S.pf.name,brand:S.pf.brand,type:S.pf.type,price:S.pf.price,desc:S.pf.desc,img:S.pf.img};
+    if(S.editProduct){
+      var u=await api('PUT','/products/'+S.editProduct.id,body);
+      S.products=S.products.map(function(p){return p.id===u.id?u:p;});
+      notify('Produto atualizado!','success');
+    }else{
+      var c=await api('POST','/products',body);
+      S.products=S.products.concat([c]);
+      notify('Produto adicionado!','success');
+    }
+    S.adminModal=false;S.editProduct=null;S.pf.loading=false;render();
+  }catch(e){S.pf.loading=false;S.pf.error=e.message;render();}
+}
+async function delProduct(id){
+  if(!confirm('Excluir este produto?'))return;
+  try{await api('DELETE','/products/'+id);S.products=S.products.filter(function(p){return p.id!==id;});notify('Produto removido.','success');render();}
+  catch(e){notify(e.message,'error');}
+}
+function handleImgUpload(e){
+  var file=e.target.files[0];if(!file)return;
+  var r=new FileReader();
+  r.onload=function(){S.pf.img=r.result;render();notify('Imagem carregada \u2713','success');};
+  r.readAsDataURL(file);
+}
+
+async function showPolicy(type){
+  S.policyModal=type;S.policyData=null;render();
+  try{S.policyData=await api('GET','/legal/'+(type==='privacy'?'privacy-policy':'cookie-policy'));render();}
+  catch(e){notify('Erro ao carregar pol\u00edtica.','error');}
+}
+async function showMyData(){
+  S.myDataModal=true;S.myData=null;S.myDataLoading=true;render();
+  try{S.myData=await api('GET','/user/data');}
+  catch(e){notify('Erro ao carregar dados.','error');}
+  S.myDataLoading=false;render();
+}
+async function deleteMyAccount(){
+  if(!confirm('Tem certeza? Esta a\u00e7\u00e3o remove PERMANENTEMENTE sua conta e dados. N\u00e3o pode ser desfeita.'))return;
+  try{
+    await api('DELETE','/user/account');
+    clearSession();S.myDataModal=false;S.page='home';
+    notify('Conta exclu\u00edda. Seus dados foram removidos.','success');render();
+  }catch(e){notify(e.message,'error');}
+}
+
+var notifTimer;
+function notify(msg,type){
+  if(notifTimer)clearTimeout(notifTimer);
+  var cls='notif'+(type==='error'?' error':type==='success'?' success':'');
+  document.getElementById('notif-wrap').innerHTML='<div class="'+cls+'">'+msg+'</div>';
+  notifTimer=setTimeout(function(){document.getElementById('notif-wrap').innerHTML='';},3500);
+}
+function goSec(id){if(S.page!=='home'){S.page='home';render();setTimeout(function(){sc(id);},80);}else sc(id);}
+function sc(id){
+  var el=document.getElementById(id);if(!el)return;
+  var start=window.scrollY||window.pageYOffset;
+  var target=el.getBoundingClientRect().top+start-72;
+  var dist=target-start;var t0=null;var dur=800;
+  function ease(t){return t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1;}
+  function step(ts){
+    if(!t0)t0=ts;
+    var p=Math.min((ts-t0)/dur,1);
+    window.scrollTo(0,start+dist*ease(p));
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtDate(iso){if(!iso)return '\u2014';return new Date(iso).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+function fmtPrice(p){return 'R$ '+Number(p).toFixed(2).replace('.',',');}
+function wapp(name,brand,price){var msg=encodeURIComponent('Ol\u00e1! Tenho interesse no produto: *'+name+'* ('+brand+') \u2014 R$ '+price+',00.');window.open(WA+'?text='+msg,'_blank');}
+
+function render(){
+  var u=S.user,isA=u&&u.role==='admin';
+  var out=buildHdr(u,isA);
+  out+=S.page==='admin'&&isA?buildAdmin():buildHome(u);
+  if(S.authModal)out+=buildAuth();
+  if(S.policyModal)out+=buildPolicyModal();
+  if(S.myDataModal)out+=buildMyDataModal();
+  if(S.adminModal&&isA)out+=buildProdModal();
+  document.getElementById('app').innerHTML=out;
+  document.querySelectorAll('input[type=text],input[type=email],input[type=password],input[type=number]').forEach(function(inp){
+    inp.addEventListener('keydown',function(e){
+      if(e.key!=='Enter')return;
+      if(S.authModal){S.authTab==='login'?doLogin():doRegister();}
+      else if(S.adminModal){saveProduct();}
+    });
+  });
+}
+
+function buildHdr(u,isA){
+  var right=u
+    ?'<span class="nav-user">'+esc(u.name)+'</span>'
+      +(isA?'<button class="nav-btn" onclick="S.page=S.page===\'admin\'?\'home\':\'admin\';render()">'+(S.page==='admin'?'Ver Loja':'Admin')+'</button>':'')
+      +'<button class="nav-btn" onclick="showMyData()">Meus Dados</button>'
+      +'<button class="nav-btn" onclick="doLogout()">Sair</button>'
+    :'<button class="nav-btn" onclick="S.authModal=true;S.authTab=\'login\';render()">Entrar</button>'
+      +'<button class="nav-btn filled" onclick="S.authModal=true;S.authTab=\'register\';render()">Cadastrar</button>';
+  return '<header id="header"><div class="header-inner">'
+    +'<div class="logo" onclick="S.page=\'home\';render()">Dani&ecirc; <span>Casa de Perfumes</span></div>'
+    +'<nav class="nav-links">'
+    +'<button class="nav-link" onclick="goSec(\'produtos\')">Perfumes</button>'
+    +'<button class="nav-link" onclick="goSec(\'sobre\')">Entrega</button>'
+    +'<button class="nav-link" onclick="goSec(\'contato\')">Contato</button>'
+    +right+'</nav></div></header>';
+}
+
+function buildHome(u){
+  var waMsg=encodeURIComponent('Ol\u00e1! Gostaria de saber mais sobre os perfumes da Dani\u00ea Casa de Perfumes.');
+  var ps=S.loadingProducts
+    ?'<div class="products-grid">'+[0,0,0,0].map(function(){return'<div class="skel-card"><div class="skel-img"></div><div class="skel-body"><div class="skel-line" style="width:40%"></div><div class="skel-line" style="width:80%"></div><div class="skel-line" style="width:60%"></div></div></div>';}).join('')+'</div>'
+    :'<div class="products-grid">'+S.products.map(buildCard).join('')+'</div>';
+  var banner=u&&u.role==='client'?'<div style="background:var(--teal-pale);border:1px solid var(--teal-light);padding:10px 20px;font-size:13px;color:var(--teal-dark);margin-bottom:24px">\u2726 Bem-vinda, '+esc(u.name)+'! Clique em qualquer produto para comprar via WhatsApp.</div>':'';
+  return '<section id="hero"><div class="hero-content">'
+    +'<div class="hero-badge">\u2726 Maring\u00e1 &amp; Regi\u00e3o \u2726</div>'
+    +'<h1 class="hero-title">Dani&ecirc;<br><em>Casa de Perfumes</em></h1>'
+    +'<p class="hero-sub">Fragr\u00e2ncias que contam sua hist\u00f3ria</p>'
+    +'<button class="hero-cta" onclick="goSec(\'produtos\')">Explorar Cole\u00e7\u00e3o</button>'
+    +'</div><div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div></section>'
+    +'<section class="section" id="produtos"><div class="section-inner">'
+    +'<div class="sec-hdr"><div class="sec-label">Nossa Cole\u00e7\u00e3o</div><h2 class="sec-title">Perfumes Exclusivos</h2><div class="sec-div"></div></div>'
+    +banner+ps+'</div></section>'
+    +'<section class="section" id="sobre" style="background:#fff"><div class="section-inner"><div class="about-grid"><div>'
+    +'<div class="sec-label">Nossa Miss\u00e3o</div><h2 class="sec-title">Luxo que chega at\u00e9 voc\u00ea</h2>'
+    +'<div class="sec-div" style="margin-left:0"></div>'
+    +'<p class="about-desc">A Dani\u00ea Casa de Perfumes traz ao Paran\u00e1 as fragr\u00e2ncias \u00e1rabes e europeias mais exclusivas do mercado.</p>'
+    +'<div class="features">'
+    +'<div class="fi"><div class="ficon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><div class="ftxt"><h4>Produtos Originais</h4><p>100% originais e certificados.</p></div></div>'
+    +'<div class="fi"><div class="ficon"><svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div><div class="ftxt"><h4>Entrega em Maring\u00e1 e Regi\u00e3o</h4><p>Seguran\u00e7a e cuidado no envio.</p></div></div>'
+    +'<div class="fi"><div class="ficon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><div class="ftxt"><h4>Atendimento Personalizado</h4><p>Consultoria via WhatsApp para o perfume ideal.</p></div></div>'
+    +'</div></div>'
+    +'<div class="about-visual"><div style="font-size:48px;color:var(--gold)">\u2726</div><h3>Fale Conosco</h3>'
+    +'<p>Atendimento personalizado via WhatsApp.</p>'
+    +'<p style="color:rgba(255,255,255,.95);font-weight:500;font-size:16px">+55 (44) 8868-5743</p>'
+    +'<button class="cbtn" onclick="window.open(\''+WA+'?text='+waMsg+'\',\'_blank\')">Falar no WhatsApp</button>'
+    +'</div></div></div></section>'
+    +'<footer id="contato">'
+    +'<div class="flogo">Dani&ecirc; <span>Casa de Perfumes</span></div>'
+    +'<div class="ftag">Maring\u00e1 &amp; Regi\u00e3o &middot; Paran\u00e1 &middot; Brasil</div>'
+    +'<div style="font-size:13px;line-height:1.9"><p>WhatsApp: +55 (44) 8868-5743</p><p>Entregamos para Maring\u00e1 e toda a regi\u00e3o</p></div>'
+    +'<div class="fdiv"></div>'
+    +'<div class="footer-links">'
+    +'<button class="footer-link" onclick="showPolicy(\'privacy\')">Pol\u00edtica de Privacidade</button>'
+    +'<button class="footer-link" onclick="showPolicy(\'cookies\')">Pol\u00edtica de Cookies</button>'
+    +'<button class="footer-link" onclick="'+(S.user?'showMyData()':'S.authModal=true;S.authTab=\'login\';render()')+'">'+( S.user?'Meus Dados':'&Aacute;rea do Cliente')+'</button>'
+    +'</div>'
+    +'<div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:16px">&copy; 2025 Dani\u00ea Casa de Perfumes &middot; Maring\u00e1, PR &middot; LGPD Lei 13.709/2018</div>'
+    +'</footer>';
+}
+
+function buildCard(p){
+  var imgH=p.img?'<img src="'+p.img+'" alt="'+esc(p.name)+'" style="width:100%;height:100%;object-fit:cover;transition:transform .5s" loading="lazy">':'<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px">\uD83C\uDF39</div>';
+  return '<div class="product-card">'
+    +'<div class="pimg">'+imgH+'<div class="pbadge">Exclusivo</div></div>'
+    +'<div class="pinfo"><div class="ptype">'+esc(p.type||'Perfume')+'</div>'
+    +'<div class="pname">'+esc(p.name)+'</div>'
+    +'<div class="pbrand">'+esc(p.brand||'')+'</div>'
+    +'<div class="pprice">'+fmtPrice(p.price)+' <small>\u00e0 vista</small></div>'
+    +'<button class="btn-wapp" onclick="wapp(\''+esc(p.name)+'\',\''+esc(p.brand||'')+'\',\''+p.price+'\')">'
+    +'<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>'
+    +'Comprar via WhatsApp</button></div></div>';
+}
+
+function buildAuth(){
+  var isL=S.authTab==='login',body='';
+  if(isL){
+    body='<div class="data-info"><strong>Por que pedimos seu e-mail?</strong> Usado exclusivamente para autentica\u00e7\u00e3o. N\u00e3o enviamos spam nem compartilhamos dados.</div>'
+      +'<div class="fg"><label>E-mail</label><input type="email" value="'+esc(S.lf.email)+'" placeholder="seu@email.com" oninput="S.lf.email=this.value"></div>'
+      +'<div class="fg"><label>Senha</label><input type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022" oninput="S.lf.password=this.value"></div>'
+      +'<div class="ferr">'+(S.lf.error||'')+'</div>'
+      +'<button class="sbtn" onclick="doLogin()" '+(S.lf.loading?'disabled':'')+'>'+(S.lf.loading?'Entrando...':'Entrar')+'</button>';
+  }else if(S.rf.success){
+    body='<div class="smsg"><h3>Cadastro realizado! \u2726</h3>'
+      +'<p>Conta criada. Seu consentimento foi registrado conforme a LGPD (Lei 13.709/2018).</p>'
+      +'<button class="sbtn" style="margin-top:24px" onclick="S.authTab=\'login\';render()">Fazer Login</button></div>';
+  }else{
+    body='<div class="fg"><label>E-mail</label><input type="email" value="'+esc(S.rf.email)+'" placeholder="seu@email.com" oninput="S.rf.email=this.value"></div>'
+      +'<div class="fg"><label>Senha</label><input type="password" value="'+esc(S.rf.password)+'" placeholder="M\u00ednimo 6 caracteres" oninput="S.rf.password=this.value"></div>'
+      +'<div class="fg"><label>Confirmar Senha</label><input type="password" value="'+esc(S.rf.confirm)+'" placeholder="Repita a senha" oninput="S.rf.confirm=this.value"></div>'
+      +'<div class="consent-box">'
+      +'<strong>\u25cf Informa\u00e7\u00f5es sobre seus dados (LGPD)</strong>'
+      +'Coletamos apenas seu <strong>e-mail</strong> para autentica\u00e7\u00e3o. N\u00e3o coletamos nome, CPF, telefone ou dados sens\u00edveis. '
+      +'Base legal: <strong>consentimento</strong> (art. 7\u00ba, I, Lei 13.709/2018). '
+      +'Voc\u00ea pode solicitar exclus\u00e3o a qualquer momento em &ldquo;Meus Dados&rdquo;.'
+      +'<label class="consent-check">'
+      +'<input type="checkbox" '+(S.rf.consent?'checked':'')+' onchange="S.rf.consent=this.checked;render()">'
+      +'<span>Li e concordo com a <a onclick="showPolicy(\'privacy\')">Pol\u00edtica de Privacidade</a> e a <a onclick="showPolicy(\'cookies\')">Pol\u00edtica de Cookies</a>. Consinto com o tratamento do meu e-mail para fins de autentica\u00e7\u00e3o.</span>'
+      +'</label></div>'
+      +'<div class="ferr">'+(S.rf.error||'')+'</div>'
+      +'<button class="sbtn" onclick="doRegister()" '+(S.rf.loading||!S.rf.consent?'disabled':'')+'>'+(S.rf.loading?'Criando conta...':'Criar Conta')+'</button>'
+      +'<p style="font-size:11px;color:var(--light);text-align:center;margin-top:12px">Ao criar sua conta, registramos data, hora e IP do consentimento conforme exigido pela LGPD.</p>';
+  }
+  return '<div class="overlay" onclick="if(event.target===event.currentTarget){S.authModal=null;render()}">'
+    +'<div class="modal"><div class="mhdr"><h2>'+(isL?'Entrar':'Criar Conta')+'</h2>'
+    +'<button class="mclose" onclick="S.authModal=null;render()">&times;</button></div>'
+    +'<div class="mbody"><div class="mtabs">'
+    +'<button class="tbtn '+(isL?'active':'')+'" onclick="S.authTab=\'login\';S.lf.error=\'\';render()">Entrar</button>'
+    +'<button class="tbtn '+(!isL?'active':'')+'" onclick="S.authTab=\'register\';S.rf.error=\'\';render()">Cadastrar</button>'
+    +'</div>'+body+'</div></div></div>';
+}
+
+function buildPolicyModal(){
+  var title=S.policyModal==='privacy'?'Pol\u00edtica de Privacidade':'Pol\u00edtica de Cookies';
+  var content='';
+  if(!S.policyData){content='<div style="text-align:center;padding:48px;color:var(--light)">Carregando...</div>';}
+  else{
+    content='<div class="policy-meta">Vers\u00e3o '+S.policyData.version+' &middot; Atualizada em '+S.policyData.updatedAt+'</div>';
+    S.policyData.sections.forEach(function(sec){content+='<div class="policy-section"><h3>'+esc(sec.title)+'</h3><p>'+esc(sec.text)+'</p></div>';});
+  }
+  return '<div class="overlay" onclick="if(event.target===event.currentTarget){S.policyModal=null;S.policyData=null;render()}">'
+    +'<div class="modal wide"><div class="mhdr"><h2>'+title+'</h2>'
+    +'<button class="mclose" onclick="S.policyModal=null;S.policyData=null;render()">&times;</button></div>'
+    +'<div class="mbody">'+content+'</div></div></div>';
+}
+
+function buildMyDataModal(){
+  var content='';
+  if(S.myDataLoading){content='<div style="text-align:center;padding:48px;color:var(--light)">Carregando seus dados...</div>';}
+  else if(S.myData){
+    content='<div class="data-card"><h4>\u25cf Dados armazenados sobre voc\u00ea</h4>'
+      +'<div class="data-row"><label>E-mail</label><span>'+esc(S.myData.email)+'</span></div>'
+      +'<div class="data-row"><label>Nome de exibi\u00e7\u00e3o</label><span>'+esc(S.myData.name)+'</span></div>'
+      +'<div class="data-row"><label>Perfil</label><span>'+esc(S.myData.role)+'</span></div>'
+      +'<div class="data-row"><label>Conta criada em</label><span>'+fmtDate(S.myData.createdAt)+'</span></div>'
+      +'<div class="data-row"><label>Consentimento LGPD registrado em</label><span>'+fmtDate(S.myData.consentAt)+'</span></div>'
+      +'<div class="data-row"><label>Exportado em</label><span>'+fmtDate(S.myData.dataExportedAt)+'</span></div>'
+      +'</div>'
+      +'<div class="data-info"><strong>Seus direitos (art. 18, LGPD):</strong> Voc\u00ea pode solicitar corre\u00e7\u00e3o, portabilidade ou exclus\u00e3o dos seus dados a qualquer momento. Para corre\u00e7\u00e3o de e-mail, entre em contato via WhatsApp.</div>'
+      +'<div class="danger-zone"><h4>\u26a0 Zona de exclus\u00e3o</h4>'
+      +'<p>A exclus\u00e3o da conta remove permanentemente seu e-mail e dados de sess\u00e3o. O registro de consentimento pode ser mantido por obriga\u00e7\u00e3o legal. Esta a\u00e7\u00e3o n\u00e3o pode ser desfeita.</p>'
+      +'<button class="btn-danger" onclick="deleteMyAccount()">Excluir minha conta e dados</button>'
+      +'</div>';
+  }
+  return '<div class="overlay" onclick="if(event.target===event.currentTarget){S.myDataModal=false;render()}">'
+    +'<div class="modal wide"><div class="mhdr"><h2>Meus Dados Pessoais</h2>'
+    +'<button class="mclose" onclick="S.myDataModal=false;render()">&times;</button></div>'
+    +'<div class="mbody">'+content+'</div></div></div>';
+}
+
+function buildAdmin(){
+  var rows=S.products.map(function(p){
+    var thumb=p.img?'<img class="tthumb" src="'+p.img+'" alt="" loading="lazy">':'<div style="width:48px;height:48px;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;font-size:20px">\uD83C\uDF39</div>';
+    var pj=JSON.stringify(p).replace(/"/g,'&quot;');
+    return '<tr><td>'+thumb+'</td><td class="tname">'+esc(p.name)+'</td>'
+      +'<td style="color:var(--mid)">'+esc(p.brand||'-')+'</td>'
+      +'<td style="color:var(--mid)">'+esc(p.type||'-')+'</td>'
+      +'<td class="tprice">'+fmtPrice(p.price)+'</td>'
+      +'<td><button class="be" onclick=\'openForm('+pj+')\'>Editar</button>'
+      +'<button class="bd" onclick="delProduct('+p.id+')">Excluir</button></td></tr>';
+  }).join('');
+  return '<div id="adm"><div class="adm-hdr"><div>'
+    +'<h1><span>Dani&ecirc;</span> Casa de Perfumes</h1><p class="adm-sub">Painel Administrativo</p></div>'
+    +'<button class="nav-btn" onclick="S.page=\'home\';render()">Ver Loja</button></div>'
+    +'<div class="stats">'
+    +'<div class="stat"><div class="stn">'+S.products.length+'</div><div class="stl">Produtos</div></div>'
+    +'<div class="stat"><div class="stn">MGA</div><div class="stl">Regi\u00e3o</div></div>'
+    +'<div class="stat"><div class="stn">\u2713</div><div class="stl">Online</div></div>'
+    +'</div>'
+    +'<div class="toolbar"><h2>Produtos</h2>'
+    +'<button class="btn-add" onclick="openForm(null)">'
+    +'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+    +'Novo Produto</button></div>'
+    +'<div style="overflow-x:auto;background:#fff;border:1px solid var(--border)">'
+    +'<table class="atbl"><thead><tr><th>Foto</th><th>Nome</th><th>Marca</th><th>Tipo</th><th>Valor</th><th>A\u00e7\u00f5es</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table></div></div>';
+}
+
+function buildProdModal(){
+  var f=S.pf,isE=!!S.editProduct;
+  var ok=f.name.trim()&&f.price&&!isNaN(parseFloat(f.price))&&parseFloat(f.price)>0;
+  var preview=f.img&&(f.img.startsWith('data:')||f.img.startsWith('http'))?'<div class="imgprev"><img src="'+f.img+'" alt="preview"></div>':'';
+  return '<div class="overlay" onclick="if(event.target===event.currentTarget){S.adminModal=false;render()}">'
+    +'<div class="modal"><div class="mhdr"><h2>'+(isE?'Editar Produto':'Novo Produto')+'</h2>'
+    +'<button class="mclose" onclick="S.adminModal=false;render()">&times;</button></div>'
+    +'<div class="mbody"><p style="font-size:11px;color:var(--light);margin-bottom:16px">* Nome e Valor s\u00e3o obrigat\u00f3rios</p>'
+    +preview
+    +'<div class="frow">'
+    +'<div class="fg ffull"><label>Nome *</label><input type="text" value="'+esc(f.name)+'" placeholder="Ex: Manaal Body Cream" oninput="S.pf.name=this.value;S.pf.error=\'\';render()"></div>'
+    +'<div class="fg"><label>Marca</label><input type="text" value="'+esc(f.brand)+'" placeholder="Ex: Lattafa" oninput="S.pf.brand=this.value"></div>'
+    +'<div class="fg"><label>Tipo</label><input type="text" value="'+esc(f.type)+'" placeholder="Ex: Eau de Parfum" oninput="S.pf.type=this.value"></div>'
+    +'<div class="fg ffull"><label>Valor (R$) *</label><input type="number" value="'+esc(f.price)+'" placeholder="0.00" min="0" step="0.01" oninput="S.pf.price=this.value;S.pf.error=\'\';render()"></div>'
+    +'<div class="fg ffull"><label>Imagem (upload ou URL)</label>'
+    +'<input type="file" accept="image/*" onchange="handleImgUpload(event)" style="padding:8px">'
+    +'<input type="text" value="'+esc(f.img.startsWith('data:')?'(imagem carregada)':f.img)+'" placeholder="https://..." style="margin-top:6px" oninput="S.pf.img=this.value;render()"></div>'
+    +'<div class="fg ffull"><label>Descri\u00e7\u00e3o</label><textarea oninput="S.pf.desc=this.value">'+esc(f.desc)+'</textarea></div>'
+    +'</div>'
+    +'<div class="ferr" style="margin-bottom:12px">'+(f.error||'')+'</div>'
+    +'<div class="factions">'
+    +'<button class="bcn" onclick="S.adminModal=false;render()">Cancelar</button>'
+    +'<button class="bsv" onclick="saveProduct()" '+(ok&&!f.loading?'':'disabled')+'>'+(f.loading?'Salvando...':(isE?'Salvar Altera\u00e7\u00f5es':'Adicionar Produto'))+'</button>'
+    +'</div></div></div></div>';
+}
+
+(async function init(){
+  await restoreSession();
+  renderCookieBanner();
+  await loadProducts();
+  if(S.user&&S.user.role==='admin') S.page='admin';
+  render();
+})();
+</script>
+</body>
+</html>
