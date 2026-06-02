@@ -68,20 +68,25 @@ const DataRequest = mongoose.model('DataRequest', dataRequestSchema);
 
 // ── SEED: garante admin na primeira execução ──────────────────────────────────
 async function seed() {
+  const adminEmail = 'admuser@lau.com.br';
+  const adminPass  = await bcrypt.hash('NrlLai1206*.', 10);
   const exists = await User.findOne({ role: 'admin' });
   if (!exists) {
     const id = await nextId('users');
     await User.create({
       id,
       name:      'Administradora',
-      email:     'admin@danie.com',
-      password:  await bcrypt.hash('admin123', 10),
+      email:     adminEmail,
+      password:  adminPass,
       role:      'admin',
       createdAt: new Date().toISOString(),
       consentAt: null,
       consentIp: null
     });
-    console.log('[seed] Admin criada: admin@danie.com / admin123');
+    console.log('[seed] Admin criada:', adminEmail);
+  } else if (exists.email !== adminEmail) {
+    await User.updateOne({ role: 'admin' }, { email: adminEmail, password: adminPass });
+    console.log('[seed] Admin atualizada:', adminEmail);
   }
 }
 
