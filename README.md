@@ -1,76 +1,56 @@
-# Daniê Perfumaria — Backend + Frontend
+# Souvenir Perfumes
 
-## Estrutura
+Loja de fragrâncias árabes e europeias — Maringá, PR.
 
-```
-danie/
-├── server.js          # Backend Node.js + Express
-├── db.json            # Banco de dados (JSON)
-├── package.json
-└── public/
-    └── index.html     # Frontend (servido pelo próprio backend)
-```
+## Stack
 
-## Instalação
+- **Frontend:** HTML/CSS/JS vanilla (SPA via innerHTML)
+- **Backend:** Node.js + Express 5
+- **Banco de dados:** MongoDB Atlas (Mongoose)
+- **Deploy:** Vercel (serverless)
+- **Domínio:** souvenirperfumes.com.br
+
+## Instalação local
 
 ```bash
-# 1. Entrar na pasta
-cd danie
-
-# 2. Instalar dependências (apenas na primeira vez)
 npm install
+```
 
-# 3. Iniciar o servidor
+Crie o arquivo `.env` na raiz com as variáveis:
+
+```
+MONGODB_URI=mongodb+srv://...
+JWT_SECRET=...
+```
+
+```bash
 node server.js
 ```
 
-O site estará disponível em: **http://localhost:3000**
-
----
-
-## Credenciais
-
-| Perfil         | E-mail              | Senha     |
-|----------------|---------------------|-----------|
-| Administradora | admin@danie.com     | admin123  |
-
-Clientes se cadastram pelo próprio site.
-
----
-
-## O que cada parte faz
-
-### Backend (server.js)
-- Autentica usuários com **bcrypt** (senhas nunca ficam em texto puro)
-- Emite **JWT** com validade de 8h para sessão
-- Protege rotas de admin com middleware — cliente comum não consegue criar/editar/excluir produtos mesmo tentando via DevTools
-- Salva tudo em `db.json` (sem banco de dados externo necessário)
-
-### Frontend (public/index.html)
-- Nunca recebe lista de usuários ou senhas
-- Armazena apenas o token JWT no localStorage
-- Todas as operações de escrita passam pela API com validação de token
-
----
+O site estará em: **http://localhost:3000**
 
 ## Endpoints da API
 
-| Método | Rota                  | Acesso       | Descrição                  |
-|--------|-----------------------|--------------|----------------------------|
-| POST   | /api/auth/login       | Público      | Login, retorna JWT         |
-| POST   | /api/auth/register    | Público      | Cadastro de cliente        |
-| GET    | /api/auth/me          | Autenticado  | Valida token ativo         |
-| GET    | /api/products         | Público      | Lista produtos             |
-| POST   | /api/products         | Admin        | Cria produto               |
-| PUT    | /api/products/:id     | Admin        | Edita produto              |
-| DELETE | /api/products/:id     | Admin        | Remove produto             |
+| Método | Rota                       | Acesso      | Descrição                |
+|--------|----------------------------|-------------|--------------------------|
+| POST   | /api/auth/login            | Público     | Login, retorna JWT       |
+| POST   | /api/auth/register         | Público     | Cadastro de cliente      |
+| GET    | /api/auth/me               | Autenticado | Valida token ativo       |
+| GET    | /api/products              | Público     | Lista produtos           |
+| POST   | /api/products              | Admin       | Cria produto             |
+| PUT    | /api/products/:id          | Admin       | Edita produto            |
+| DELETE | /api/products/:id          | Admin       | Remove produto           |
+| GET    | /api/user/data             | Autenticado | Exporta dados (LGPD)     |
+| DELETE | /api/user/account          | Autenticado | Exclui conta (LGPD)      |
+| POST   | /api/legal/consent/cookies | Público     | Registra consentimento   |
+| GET    | /api/legal/privacy-policy  | Público     | Política de privacidade  |
+| GET    | /api/legal/cookie-policy   | Público     | Política de cookies      |
 
----
+## Variáveis de ambiente (Vercel)
 
-## Para hospedar (Render.com — gratuito)
+Configure em Settings → Environment Variables:
 
-1. Criar conta em https://render.com
-2. New → Web Service → conectar repositório GitHub com este código
-3. Build command: `npm install`
-4. Start command: `node server.js`
-5. Pronto — URL pública gerada automaticamente
+- `MONGODB_URI` — string de conexão do MongoDB Atlas
+- `JWT_SECRET` — segredo para assinar tokens JWT
+
+Nunca commitar o `.env` no repositório.

@@ -9,12 +9,38 @@ const path      = require('path');
 const mongoose  = require('mongoose');
 
 const app        = express();
-const PORT       = process.env.PORT       || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || 'danie-perfumaria-secret-2025';
+const PORT       = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET;
 const MONGODB_URI = process.env.MONGODB_URI;
 
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+if (!JWT_SECRET) { console.error('❌  JWT_SECRET não definida.'); process.exit(1); }
+
+// Rate limiting simples em memória para o endpoint de login
+const loginAttempts = new Map();
+function loginRateLimit(req, res, next) {
+  const key = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+  const now = Date.now();
+  const entry = loginAttempts.get(key) || { count: 0, first: now };
+  if (now - entry.first > 15 * 60 * 1000) { entry.count = 0; entry.first = now; }
+  entry.count++;
+  loginAttempts.set(key, entry);
+  if (entry.count > 10) return res.status(429).json({ error: 'Muitas tentativas. Aguarde 15 minutos.' });
+  next();
+}
+
+const ALLOWED_ORIGINS = [
+  'https://souvenirperfumes.com.br',
+  'https://www.souvenirperfumes.com.br',
+  /\.vercel\.app$/
+];
+app.use(cors({
+  origin: function (origin, cb) {
+    if (!origin) return cb(null, true); // permite server-to-server e Vercel health checks
+    const ok = ALLOWED_ORIGINS.some(o => typeof o === 'string' ? o === origin : o.test(origin));
+    cb(ok ? null : new Error('CORS bloqueado'), ok);
+  }
+}));
+app.use(express.json({ limit: '5mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ── SCHEMAS ──────────────────────────────────────────────────────────────────
@@ -120,7 +146,7 @@ function toObj(doc) {
 }
 
 // ── AUTH ──────────────────────────────────────────────────────────────────────
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', loginRateLimit, async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).json({ error: 'E-mail e senha são obrigatórios.' });
@@ -311,8 +337,7 @@ if (require.main === module) {
   // Execução local: node server.js
   connectDB().then(() => {
     app.listen(PORT, () => {
-      console.log(`\n✦ Souvenir Perfumes — http://localhost:${PORT}`);
-      console.log(`  Admin: admin@danie.com / admin123\n`);
+      console.log(`\n✦ Souvenir Perfumes — http://localhost:${PORT}\n`);
     });
   }).catch(err => { console.error(err); process.exit(1); });
 }
