@@ -183,16 +183,16 @@ app.post('/api/legal/consent/cookies', async (req, res) => {
 app.get('/api/legal/privacy-policy', (req, res) => {
   res.json({
     version: '1.0', updatedAt: '2025-06-01',
-    title: 'Política de Privacidade — Daniê Casa de Perfumes',
+    title: 'Política de Privacidade — Souvenir Perfumes',
     sections: [
-      { title: '1. Quem somos', text: 'A Daniê Casa de Perfumes é uma loja especializada em fragrâncias árabes e europeias, com sede em Maringá, Paraná. Contato: +55 (44) 8868-5743.' },
+      { title: '1. Quem somos', text: 'A Souvenir Perfumes é uma loja especializada em fragrâncias árabes e europeias, com sede em Maringá, Paraná. Contato: +55 (44) 8868-5743.' },
       { title: '2. Quais dados coletamos', text: 'Coletamos exclusivamente: (a) endereço de e-mail, utilizado para autenticação; (b) data e hora do cadastro; (c) endereço IP no momento do cadastro, para fins de auditoria de consentimento conforme exigido pela LGPD. Não coletamos nome completo, CPF, endereço postal, telefone, ou quaisquer dados sensíveis definidos pelo art. 5º, II da Lei 13.709/2018.' },
       { title: '3. Para que usamos seus dados', text: 'Os dados são usados exclusivamente para: (a) permitir o acesso à área de cliente do site; (b) registrar o histórico de consentimento exigido pela LGPD (art. 7º, I). Não utilizamos seus dados para marketing, não os compartilhamos com terceiros e não realizamos tratamento para outras finalidades.' },
       { title: '4. Base legal do tratamento', text: 'O tratamento de dados pessoais é realizado com base no consentimento livre, informado e inequívoco do titular (art. 7º, I, LGPD), coletado no momento do cadastro.' },
       { title: '5. Por quanto tempo armazenamos', text: 'Seus dados são armazenados enquanto sua conta estiver ativa. Após a solicitação de exclusão (art. 18, VI, LGPD), os dados são removidos em até 15 dias. O registro de consentimento pode ser mantido pelo período necessário para cumprimento de obrigação legal (art. 7º, II, LGPD).' },
       { title: '6. Seus direitos como titular', text: 'Você tem direito a: (I) confirmação da existência de tratamento; (II) acesso aos dados; (III) correção de dados incompletos ou inexatos; (IV) anonimização, bloqueio ou eliminação de dados desnecessários; (V) portabilidade dos dados; (VI) eliminação dos dados tratados com seu consentimento; (VII) revogação do consentimento. Para exercer qualquer direito, use a seção "Meus Dados" na sua conta ou entre em contato pelo WhatsApp +55 (44) 8868-5743.' },
       { title: '7. Segurança', text: 'Senhas são armazenadas exclusivamente em formato hash bcrypt (irreversível). Utilizamos tokens JWT com expiração de 8 horas para autenticação. Nenhuma senha ou dado de pagamento é armazenado em texto puro.' },
-      { title: '8. Contato e encarregado (DPO)', text: 'Responsável pelo tratamento de dados: Daniê Casa de Perfumes. Contato: WhatsApp +55 (44) 8868-5743. Para questões de privacidade, entre em contato diretamente pelo WhatsApp informando "Privacidade - LGPD".' }
+      { title: '8. Contato e encarregado (DPO)', text: 'Responsável pelo tratamento de dados: Souvenir Perfumes. Contato: WhatsApp +55 (44) 8868-5743. Para questões de privacidade, entre em contato diretamente pelo WhatsApp informando "Privacidade - LGPD".' }
     ]
   });
 });
@@ -200,7 +200,7 @@ app.get('/api/legal/privacy-policy', (req, res) => {
 app.get('/api/legal/cookie-policy', (req, res) => {
   res.json({
     version: '1.0', updatedAt: '2025-06-01',
-    title: 'Política de Cookies — Daniê Casa de Perfumes',
+    title: 'Política de Cookies — Souvenir Perfumes',
     sections: [
       { title: '1. O que são cookies', text: 'Cookies são pequenos arquivos de texto armazenados no seu navegador quando você visita um site. Eles permitem que o site reconheça sua sessão e preferências entre visitas.' },
       { title: '2. Cookies que utilizamos', text: 'Utilizamos apenas cookies estritamente necessários para o funcionamento do site: (a) Token de sessão (localStorage): armazena o token JWT de autenticação, válido por 8 horas, necessário para manter você conectado. Sem este token, o login não funciona. Este cookie não requer consentimento pois é essencial para o serviço solicitado. Não utilizamos cookies de rastreamento, analytics, publicidade ou de terceiros.' },
@@ -282,18 +282,34 @@ app.delete('/api/products/:id', authMiddleware, adminMiddleware, async (req, res
 });
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
-async function start() {
+let dbReady = false;
+
+async function connectDB() {
+  if (dbReady) return;
   if (!MONGODB_URI) {
-    console.error('❌  MONGODB_URI não definida. Configure a variável de ambiente.');
+    console.error('❌  MONGODB_URI não definida.');
     process.exit(1);
   }
   await mongoose.connect(MONGODB_URI, { family: 4 });
   console.log('[db] MongoDB conectado.');
   await seed();
-  app.listen(PORT, () => {
-    console.log(`\n✦ Daniê Casa de Perfumes — http://localhost:${PORT}`);
-    console.log(`  Admin: admin@danie.com / admin123\n`);
-  });
+  dbReady = true;
 }
 
-start().catch(err => { console.error(err); process.exit(1); });
+// Garante conexão antes de qualquer rota (necessário para Vercel serverless)
+app.use(async (req, res, next) => {
+  try { await connectDB(); next(); }
+  catch (err) { console.error(err); res.status(500).json({ error: 'Erro de conexão com o banco.' }); }
+});
+
+if (require.main === module) {
+  // Execução local: node server.js
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`\n✦ Souvenir Perfumes — http://localhost:${PORT}`);
+      console.log(`  Admin: admin@danie.com / admin123\n`);
+    });
+  }).catch(err => { console.error(err); process.exit(1); });
+}
+
+module.exports = app;
