@@ -565,6 +565,18 @@ function buildAdmin(){
     +'<tbody>'+rows+'</tbody></table></div></div>';
 }
 
+function pfCheck(){
+  var f=S.pf;
+  var ok=f.name.trim()&&f.price&&!isNaN(parseFloat(f.price))&&parseFloat(f.price)>0;
+  var btn=document.getElementById('pf-save');
+  if(btn)btn.disabled=!ok||f.loading;
+}
+function pfPreview(){
+  var p=document.getElementById('pf-preview');
+  if(!p)return;
+  var f=S.pf;
+  p.innerHTML=f.img&&(f.img.startsWith('data:')||f.img.startsWith('http'))?'<div class="imgprev"><img src="'+f.img+'" alt="preview"></div>':'';
+}
 function buildProdModal(){
   var f=S.pf,isE=!!S.editProduct;
   var ok=f.name.trim()&&f.price&&!isNaN(parseFloat(f.price))&&parseFloat(f.price)>0;
@@ -573,21 +585,21 @@ function buildProdModal(){
     +'<div class="modal"><div class="mhdr"><h2>'+(isE?'Editar Produto':'Novo Produto')+'</h2>'
     +'<button class="mclose" onclick="S.adminModal=false;render()">&times;</button></div>'
     +'<div class="mbody"><p style="font-size:11px;color:var(--light);margin-bottom:16px">* Nome e Valor s\u00e3o obrigat\u00f3rios</p>'
-    +preview
+    +'<div id="pf-preview">'+preview+'</div>'
     +'<div class="frow">'
-    +'<div class="fg ffull"><label>Nome *</label><input type="text" value="'+esc(f.name)+'" placeholder="Ex: Manaal Body Cream" oninput="S.pf.name=this.value;S.pf.error=\'\';render()"></div>'
+    +'<div class="fg ffull"><label>Nome *</label><input type="text" value="'+esc(f.name)+'" placeholder="Ex: Manaal Body Cream" oninput="S.pf.name=this.value;S.pf.error=\'\';pfCheck()"></div>'
     +'<div class="fg"><label>Marca</label><input type="text" value="'+esc(f.brand)+'" placeholder="Ex: Lattafa" oninput="S.pf.brand=this.value"></div>'
     +'<div class="fg"><label>Tipo</label><input type="text" value="'+esc(f.type)+'" placeholder="Ex: Eau de Parfum" oninput="S.pf.type=this.value"></div>'
-    +'<div class="fg ffull"><label>Valor (R$) *</label><input type="number" value="'+esc(f.price)+'" placeholder="0.00" min="0" step="0.01" oninput="S.pf.price=this.value;S.pf.error=\'\';render()"></div>'
+    +'<div class="fg ffull"><label>Valor (R$) *</label><input type="number" value="'+esc(f.price)+'" placeholder="0.00" min="0" step="0.01" oninput="S.pf.price=this.value;S.pf.error=\'\';pfCheck()"></div>'
     +'<div class="fg ffull"><label>Imagem (upload ou URL)</label>'
     +'<input type="file" accept="image/*" onchange="handleImgUpload(event)" style="padding:8px">'
-    +'<input type="text" value="'+esc(f.img.startsWith('data:')?'(imagem carregada)':f.img)+'" placeholder="https://..." style="margin-top:6px" oninput="S.pf.img=this.value;render()"></div>'
+    +'<input type="text" value="'+esc(f.img.startsWith('data:')?'(imagem carregada)':f.img)+'" placeholder="https://..." style="margin-top:6px" oninput="S.pf.img=this.value;pfPreview()"></div>'
     +'<div class="fg ffull"><label>Descri\u00e7\u00e3o</label><textarea oninput="S.pf.desc=this.value">'+esc(f.desc)+'</textarea></div>'
     +'</div>'
     +'<div class="ferr" style="margin-bottom:12px">'+(f.error||'')+'</div>'
     +'<div class="factions">'
     +'<button class="bcn" onclick="S.adminModal=false;render()">Cancelar</button>'
-    +'<button class="bsv" onclick="saveProduct()" '+(ok&&!f.loading?'':'disabled')+'>'+(f.loading?'Salvando...':(isE?'Salvar Altera\u00e7\u00f5es':'Adicionar Produto'))+'</button>'
+    +'<button id="pf-save" class="bsv" onclick="saveProduct()" '+(ok&&!f.loading?'':'disabled')+'>'+(f.loading?'Salvando...':(isE?'Salvar Altera\u00e7\u00f5es':'Adicionar Produto'))+'</button>'
     +'</div></div></div></div>';
 }
 
