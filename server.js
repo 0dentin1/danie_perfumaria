@@ -8,6 +8,8 @@ const cors      = require('cors');
 const path      = require('path');
 const mongoose  = require('mongoose');
 
+mongoose.set('bufferCommands', false); // falha imediata se não houver conexão ativa
+
 const app        = express();
 const PORT       = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -319,17 +321,28 @@ app.delete('/api/products/:id', authMiddleware, adminMiddleware, async (req, res
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
 let seeded = false;
+let _connPromise = null;
+
 async function connectDB() {
-  if (mongoose.connection.readyState === 1) return; // já conectado
+  const state = mongoose.connection.readyState;
+  if (state === 1) return; // já conectado
   if (!MONGODB_URI) throw new Error('MONGODB_URI não definida.');
-  await mongoose.connect(MONGODB_URI, {
-    family: 4,
-    serverSelectionTimeoutMS: 8000,
-    connectTimeoutMS: 8000,
-    socketTimeoutMS: 45000,
-  });
-  console.log('[db] MongoDB conectado.');
-  if (!seeded) { await seed(); seeded = true; }
+  // reutiliza a mesma promise em cold starts com requisições simultâneas
+  if (!_connPromise) {
+    _connPromise = mongoose.connect(MONGODB_URI, {
+      family: 4,
+      serverSelectionTimeoutMS: 8000,
+      connectTimeoutMS: 8000,
+      socketTimeoutMS: 45000,
+    }).then(async () => {
+      console.log('[db] MongoDB conectado.');
+      if (!seeded) { await seed(); seeded = true; }
+    }).catch(err => {
+      _connPromise = null; // permite nova tentativa na próxima requisição
+      throw err;
+    });
+  }
+  return _connPromise;
 }
 
 if (require.main === module) {
