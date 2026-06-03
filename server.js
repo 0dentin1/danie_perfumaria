@@ -42,6 +42,11 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '5mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
+// Garante conexão com o banco antes de qualquer rota
+app.use(async (req, res, next) => {
+  try { await connectDB(); next(); }
+  catch (err) { console.error(err); res.status(500).json({ error: 'Erro de conexão com o banco.' }); }
+});
 
 // ── SCHEMAS ──────────────────────────────────────────────────────────────────
 const counterSchema = new mongoose.Schema({ _id: String, seq: { type: Number, default: 0 } });
@@ -313,25 +318,19 @@ app.delete('/api/products/:id', authMiddleware, adminMiddleware, async (req, res
 });
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
-let dbReady = false;
-
+let seeded = false;
 async function connectDB() {
-  if (dbReady) return;
-  if (!MONGODB_URI) {
-    console.error('❌  MONGODB_URI não definida.');
-    process.exit(1);
-  }
-  await mongoose.connect(MONGODB_URI, { family: 4 });
+  if (mongoose.connection.readyState === 1) return; // já conectado
+  if (!MONGODB_URI) throw new Error('MONGODB_URI não definida.');
+  await mongoose.connect(MONGODB_URI, {
+    family: 4,
+    serverSelectionTimeoutMS: 8000,
+    connectTimeoutMS: 8000,
+    socketTimeoutMS: 45000,
+  });
   console.log('[db] MongoDB conectado.');
-  await seed();
-  dbReady = true;
+  if (!seeded) { await seed(); seeded = true; }
 }
-
-// Garante conexão antes de qualquer rota (necessário para Vercel serverless)
-app.use(async (req, res, next) => {
-  try { await connectDB(); next(); }
-  catch (err) { console.error(err); res.status(500).json({ error: 'Erro de conexão com o banco.' }); }
-});
 
 if (require.main === module) {
   // Execução local: node server.js
