@@ -223,7 +223,7 @@ app.get('/api/legal/privacy-policy', (req, res) => {
     version: '1.0', updatedAt: '2025-06-01',
     title: 'Política de Privacidade — Souvenir Perfumes',
     sections: [
-      { title: '1. Quem somos', text: 'A Souvenir Perfumes é uma loja especializada em fragrâncias árabes e europeias, com sede em Maringá, Paraná. Contato: +55 (44) 8868-5743.' },
+      { title: '1. Quem somos', text: 'A Souvenir Perfumes é uma loja especializada em fragrâncias árabes, criada para oferecer os mais exclusivos e sofisticados perfumes. Estamos preparados para te auxiliar na descoberta de sua assinatura olfativa.' },
       { title: '2. Quais dados coletamos', text: 'Coletamos exclusivamente: (a) endereço de e-mail, utilizado para autenticação; (b) data e hora do cadastro; (c) endereço IP no momento do cadastro, para fins de auditoria de consentimento conforme exigido pela LGPD. Não coletamos nome completo, CPF, endereço postal, telefone, ou quaisquer dados sensíveis definidos pelo art. 5º, II da Lei 13.709/2018.' },
       { title: '3. Para que usamos seus dados', text: 'Os dados são usados exclusivamente para: (a) permitir o acesso à área de cliente do site; (b) registrar o histórico de consentimento exigido pela LGPD (art. 7º, I). Não utilizamos seus dados para marketing, não os compartilhamos com terceiros e não realizamos tratamento para outras finalidades.' },
       { title: '4. Base legal do tratamento', text: 'O tratamento de dados pessoais é realizado com base no consentimento livre, informado e inequívoco do titular (art. 7º, I, LGPD), coletado no momento do cadastro.' },
