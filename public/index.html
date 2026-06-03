@@ -413,6 +413,7 @@ function buildHome(u){
     :'<div class="products-grid">'+S.products.map(buildCard).join('')+'</div>';
   var banner=u&&u.role==='client'?'<div style="background:var(--teal-pale);border:1px solid var(--teal-light);padding:10px 20px;font-size:13px;color:var(--teal-dark);margin-bottom:24px">\u2726 Bem-vinda, '+esc(u.name)+'! Clique em qualquer produto para comprar via WhatsApp.</div>':'';
   return '<section id="hero"><div class="hero-content">'
+    +'<div class="hero-badge">✦ Especialista em perfumes árabes ✦</div>'
     +'<h1 class="hero-title">Souvenir<br><em>Perfumes</em></h1>'
     +'<p class="hero-sub">Fragr\u00e2ncias que contam sua hist\u00f3ria</p>'
     +'<button class="hero-cta" onclick="goSec(\'produtos\')">Explorar Cole\u00e7\u00e3o</button>'
