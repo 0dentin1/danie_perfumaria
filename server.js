@@ -276,7 +276,7 @@ app.delete('/api/user/account', authMiddleware, async (req, res) => {
 
 // ── PRODUTOS ──────────────────────────────────────────────────────────────────
 app.get('/api/products', async (req, res) => {
-  const products = await Product.find().sort({ _id: 1 });
+  const products = await Product.find({}, { _id: 0, __v: 0 });
   res.json(products.map(toObj));
 });
 
