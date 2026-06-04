@@ -72,7 +72,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 const productSchema = new mongoose.Schema({
-  id:    Number,
+  id:    { type: Number, index: true },
   name:  String,
   brand: { type: String, default: '' },
   type:  { type: String, default: '' },
