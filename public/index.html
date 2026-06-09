@@ -436,7 +436,7 @@ function buildHome(u){
   var banner=u&&u.role==='client'?'<div style="background:var(--teal-pale);border:1px solid var(--teal-light);padding:10px 20px;font-size:13px;color:var(--teal-dark);margin-bottom:24px">\u2726 Bem-vinda, '+esc(u.name)+'! Clique em qualquer produto para comprar via WhatsApp.</div>':'';
   return '<section id="hero"><div class="hero-content">'
     +'<div class="hero-badge">✦ Especialista em perfumes árabes ✦</div>'
-    +'<img src="/img/logo-meio.png" alt="Souvenir Perfumes" style="width:min(520px,80vw);height:auto;display:block;margin:0 auto 8px;mix-blend-mode:multiply;filter:brightness(1.1)">'
+    +'<div style="overflow:hidden;width:min(480px,75vw);margin:0 auto 8px"><img src="/img/logo-meio.png" alt="Souvenir Perfumes" style="width:145%;height:auto;display:block;margin:-8% -22%;mix-blend-mode:multiply"></div>'
     +'<p class="hero-sub">Fragr\u00e2ncias que contam sua hist\u00f3ria</p>'
     +'<button class="hero-cta" onclick="goSec(\'produtos\')">Explorar Cole\u00e7\u00e3o</button>'
     +'</div><div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div></section>'
